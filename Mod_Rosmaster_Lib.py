@@ -711,25 +711,25 @@ class Rosmaster(object):
     def set_uart_servo_angle(self, s_id, s_angle, run_time=500):
         try:
             if s_id == 1:
-                if 0 <= s_angle <= 360:
+                if 0 <= s_angle <= 180:
                     value = self.__arm_convert_value(s_id, s_angle)
                     self.set_uart_servo(s_id, value, run_time)
                 else:
                     print("angle_1 set error!")
-            elif s_id == 2:
-                if 0 <= s_angle <= 360:
+            elif s_id == 2: # updated for passenger baffle
+                if 20 <= s_angle <= 180:
                     value = self.__arm_convert_value(s_id, s_angle)
                     self.set_uart_servo(s_id, value, run_time)
                 else:
                     print("angle_2 set error!")
             elif s_id == 3:
-                if 0 <= s_angle <= 360:
+                if 0 <= s_angle <= 160: # updated for driver baffle
                     value = self.__arm_convert_value(s_id, s_angle)
                     self.set_uart_servo(s_id, value, run_time)
                 else:
                     print("angle_3 set error!")
             elif s_id == 4:
-                if 0 <= s_angle <= 360:
+                if 0 <= s_angle <= 180: # reverted to allow max gate
                     value = self.__arm_convert_value(s_id, s_angle)
                     self.set_uart_servo(s_id, value, run_time)
                 else:

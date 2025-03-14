@@ -4,7 +4,7 @@ from ultralytics import YOLO
 import torch
 from torchvision import models, transforms
 from torchvision.io import read_image
-from Rosmaster_Lib import Rosmaster
+from Mod_Rosmaster_Lib import Rosmaster
 from flask import Flask, jsonify
 
 rosmaster = Rosmaster()
