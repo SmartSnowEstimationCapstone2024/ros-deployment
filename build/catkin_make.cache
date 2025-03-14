@@ -1,0 +1,2 @@
+
+-DCATKIN_DEVEL_PREFIX=/home/wzc/ros-deployment/devel -DCMAKE_INSTALL_PREFIX=/home/wzc/ros-deployment/install -G Unix Makefiles
