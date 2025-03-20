@@ -1,7 +1,9 @@
+# ros imports
 import rospy
-import cv2
 from sensor_msgs.msg import Image
 from cv_bridge import CvBridge
+# python imports
+import cv2
 import threading
 
 class RosVideoCapture:
