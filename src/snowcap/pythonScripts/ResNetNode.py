@@ -2,7 +2,7 @@
 import rospy
 from std_msgs.msg import Float64
 # python imports
-from RosCapture import RosVideoCapture
+from snowcap.pythonScripts.RosCapture import RosVideoCapture
 import torch
 from torchvision import models, transforms
 

@@ -3,7 +3,7 @@ import rospy
 from std_msgs.msg import MultiArrayDimension, MultiArrayLayout, Int32MultiArray
 # python imports
 import torch
-from RosCapture import RosVideoCapture
+from snowcap.pythonScripts.RosCapture import RosVideoCapture
 from ultralytics import YOLO
 
 # initalize video capture node and object
