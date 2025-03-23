@@ -9,7 +9,6 @@ project(snowcap)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
   rospy
-  rospkg
   std_msgs
   sensor_msgs
   cv_bridge
@@ -163,8 +162,8 @@ include_directories(
 ## in contrast to setup.py, you can choose the destination
 catkin_install_python(PROGRAMS
   #scripts/RosCapture.py
-  scripts/ResNetNode.py
-  scripts/YoloNode.py
+  snowcap_python/ResNetNode.py
+  snowcap_python/YoloNode.py
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 

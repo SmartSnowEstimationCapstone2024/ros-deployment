@@ -8,12 +8,13 @@ from snowcap_python.RosCapture import RosVideoCapture
 from ultralytics import YOLO
 
 # initalize video capture node and object
-rgb_stream = RosVideoCapture(topic="/camera/depth/image_raw", node_name="snowcap_rgb_capture", encoding="passthrough", as_type=None)
+rospy.init_node("YoloNode")
+rgb_stream = RosVideoCapture(topic="/camera/depth/image_raw", encoding="passthrough", as_type=None)
 # initalize model
 device = torch.device('cpu')
 if torch.cuda.is_available():
     device = torch.device('cuda')
-    rospy.logdebug("ResNetNode now using device cuda.")
+    rospy.loginfo("YoloNode now using device cuda.")
 else:
     rospy.logwarn("ResNetNode unable to use cuda, falling back to cpu.")
 yoloModel = YOLO(os.path.join(rospkg.RosPack().get_path('snowcap'), 'models/YoloModel.pt'))
@@ -21,7 +22,7 @@ yoloModel.to(device)
 
 def coverageInterpreter():
     # deal with defining the message
-    msgDim = MultiArrayDimension[1]
+    msgDim = [MultiArrayDimension()]
     msgDim[0].label = "Coverage Pixels"
     valid_cap, img = rgb_stream.read()
     while not valid_cap:
@@ -34,7 +35,6 @@ def coverageInterpreter():
     msg.layout = layout
 
     pubTopic = rospy.Publisher("/snowcap/snowsegments", Int32MultiArray, queue_size=1)
-    rospy.init_node("YoloNode")
     pubRate = rospy.Rate(10)
     while not (rospy.is_shutdown() or rospy.is_shutdown_requested()):
         valid_cap, img = rgb_stream.read()
@@ -53,5 +53,6 @@ def coverageInterpreter():
 if __name__ == '__main__':
     try:
         coverageInterpreter()
+        rospy.spin()
     except rospy.ROSInterruptException:
         pass

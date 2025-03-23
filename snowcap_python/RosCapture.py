@@ -7,13 +7,12 @@ import cv2
 import threading
 
 class RosVideoCapture:
-    def __init__(self, topic="/camera/depth/image_raw", node_name="ros_img_capture", encoding="passthrough", as_type="uint8"):
+    def __init__(self, topic="/camera/depth/image_raw", encoding="passthrough", as_type="uint8"):
         self.topic = topic
         self.bridge = CvBridge()
         self.frame = None
         self.lock = threading.Lock()
         self.running = True
-        self.node_name = node_name
         self.encoding = encoding
         self.as_type = as_type
 
@@ -22,9 +21,7 @@ class RosVideoCapture:
         self.thread.start()
 
     def _start_ros_node(self):
-        rospy.init_node(self.node_name, anonymous=True, disable_signals=True)
         rospy.Subscriber(self.topic, Image, self._callback)
-        rospy.spin()
 
     def _callback(self, msg):
         try:
