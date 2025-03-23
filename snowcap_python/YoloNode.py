@@ -1,9 +1,10 @@
 # ros imports
-import rospy
+import rospy, rospkg
 from std_msgs.msg import MultiArrayDimension, MultiArrayLayout, Int32MultiArray
 # python imports
+import os
 import torch
-from snowcap.pythonScripts.RosCapture import RosVideoCapture
+from snowcap_python.RosCapture import RosVideoCapture
 from ultralytics import YOLO
 
 # initalize video capture node and object
@@ -15,7 +16,7 @@ if torch.cuda.is_available():
     rospy.logdebug("ResNetNode now using device cuda.")
 else:
     rospy.logwarn("ResNetNode unable to use cuda, falling back to cpu.")
-yoloModel = YOLO('../models/YoloModel.pt')
+yoloModel = YOLO(os.path.join(rospkg.RosPack().get_path('snowcap'), 'models/YoloModel.pt'))
 yoloModel.to(device)
 
 def coverageInterpreter():

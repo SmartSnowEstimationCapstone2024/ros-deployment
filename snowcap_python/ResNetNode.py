@@ -1,8 +1,9 @@
 # ros imports
-import rospy
+import rospy, rospkg
 from std_msgs.msg import Float64
 # python imports
-from snowcap.pythonScripts.RosCapture import RosVideoCapture
+import os
+from snowcap_python.RosCapture import RosVideoCapture
 import torch
 from torchvision import models, transforms
 
@@ -15,7 +16,7 @@ if torch.cuda.is_available():
     rospy.logdebug("ResNetNode now using device cuda.")
 else:
     rospy.logwarn("ResNetNode unable to use cuda, falling back to cpu.")
-checkpoint = torch.load('../models/ResNetModel.pth', map_location=device)
+checkpoint = torch.load(os.path.join(rospkg.RosPack().get_path('snowcap'), 'models/ResNetModel.pth'), map_location=device)
 resNetModel = models.resnet50(weights=checkpoint)
 resNetModel.fc = torch.nn.Linear(in_features=2048, out_features=1)
 resNetModel.eval()
