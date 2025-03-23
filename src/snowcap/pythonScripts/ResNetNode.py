@@ -23,7 +23,7 @@ transform = transforms.Compose([transforms.ToTensor])
 
 def levelInterpreter():
     pubTopic = rospy.Publisher("/snowcap/snowlevel", Float64, queue_size=1)
-    rospy.init_node("ResNetNode", anonymous=True)
+    rospy.init_node("ResNetNode")
     pubRate = rospy.Rate(10)
     while not (rospy.is_shutdown() or rospy.is_shutdown_requested()):
         valid_cap, img = rgb_stream.read()
@@ -31,7 +31,7 @@ def levelInterpreter():
             with torch.no_grad():
                 img = transform(img)
                 output = resNetModel(img[None,:,:,:]).item() * 178 + 0.1
-                pubTopic.publish(output)
+                pubTopic.publish(Float64(output))
         pubRate.sleep()
 
 if __name__ == '__main__':
