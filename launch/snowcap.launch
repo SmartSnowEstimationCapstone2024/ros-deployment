@@ -1,0 +1,4 @@
+<launch>
+    <node name="ResNetNode" pkg="snowcap" type="ResNetNode.py" output="screen"/>
+    <node name="YoloNode" pkg="snowcap" type="YoloNode.py" output="screen"/>
+</launch>
