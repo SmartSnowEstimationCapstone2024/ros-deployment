@@ -166,6 +166,7 @@ catkin_install_python(PROGRAMS
   snowcap_python/YoloNode.py
   snowcap_python/TestCam.py
   snowcap_python/WebServer.py
+  snowcap_python/ServoNode.py
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 
