@@ -32,7 +32,7 @@ def levelInterpreter():
         if valid_cap:
             with torch.no_grad():
                 img = transform(img)
-                output = resNetModel(img[None,:,:,:]).item() * 178 + 0.1
+                output = resNetModel(img[None,:,:,:]).item() * 1.78
                 pubTopic.publish(Float64(output))
         pubRate.sleep()
 
