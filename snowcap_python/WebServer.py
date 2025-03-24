@@ -19,7 +19,7 @@ def level_callback(msg: Float64):
         rospy.logwarn("Failed to receive level msg.")
 
 def coverage_callback(msg: Int32MultiArray):
-    #try:
+    try:
         data = torch.tensor(msg.data, dtype=torch.int32).view(-1)
         if len(data) > 1:
             global tri_coverage
@@ -27,8 +27,8 @@ def coverage_callback(msg: Int32MultiArray):
             data = [torch.sum(data[0]).item(), torch.sum(data[1]).item(), torch.sum(data[2]).item()]
             print(data)
             tri_coverage = [data[0], data[1], data[2]]
-    #except:
-    #    rospy.logwarn("Failed to receive coverage msg.")
+    except:
+        rospy.logwarn("Failed to receive coverage msg.")
 
     
 
