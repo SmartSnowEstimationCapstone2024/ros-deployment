@@ -10,7 +10,7 @@ from torchvision import models, transforms
 # initalize video capture node and object
 rospy.init_node("ResNetNode")
 rospy.loginfo("starting cam node")
-rgb_stream = RosVideoCapture(topic="/camera/depth/image_raw", encoding="passthrough", as_type=None)
+rgb_stream = RosVideoCapture(topic="/camera/color/image_raw", encoding="passthrough", as_type=None)
 # initalize model
 device = torch.device('cpu')
 if torch.cuda.is_available():
@@ -22,7 +22,7 @@ checkpoint = torch.load(os.path.join(rospkg.RosPack().get_path('snowcap'), 'mode
 resNetModel = models.resnet50(weights=checkpoint)
 resNetModel.fc = torch.nn.Linear(in_features=2048, out_features=1)
 resNetModel.eval()
-transform = transforms.Compose([transforms.ToTensor])
+transform = transforms.Compose([transforms.ToTensor()])
 
 def levelInterpreter():
     pubTopic = rospy.Publisher("/snowcap/snowlevel", Float64, queue_size=1)    

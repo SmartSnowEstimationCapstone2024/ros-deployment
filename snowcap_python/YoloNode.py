@@ -9,7 +9,7 @@ from ultralytics import YOLO
 
 # initalize video capture node and object
 rospy.init_node("YoloNode")
-rgb_stream = RosVideoCapture(topic="/camera/depth/image_raw", encoding="passthrough", as_type=None)
+rgb_stream = RosVideoCapture(topic="/camera/color/image_raw", encoding="passthrough", as_type=None)
 # initalize model
 device = torch.device('cpu')
 if torch.cuda.is_available():
@@ -39,15 +39,17 @@ def coverageInterpreter():
     while not (rospy.is_shutdown() or rospy.is_shutdown_requested()):
         valid_cap, img = rgb_stream.read()
         if valid_cap:
-            output = torch.full(1,0)
+            output = torch.full((1,),0, dtype=torch.int32)
             results = yoloModel.predict(img)
-            if len(results) != 0:
-                output = torch.full(results[0].orig_shape[1], 0, dtype=torch.int32)
             for result in results:
-                for mask in result.masks:
-                    output += torch.sum(mask.data, 1, dtype=torch.int32)
-            msg.data = output
-            pubTopic.publish(msg)
+                if (result.masks != None):
+                    for mask in result.masks:
+                        if output.size(dim=0) == 1:
+                            output = torch.full((mask.data.shape[2],), 0, dtype=torch.int32).to(device)
+                        output = torch.add(output, torch.sum(mask.data, 1, dtype=torch.int32).view(-1))
+            if len(results) != 0:
+                msg.data = output
+                pubTopic.publish(msg)
         pubRate.sleep()
 
 if __name__ == '__main__':

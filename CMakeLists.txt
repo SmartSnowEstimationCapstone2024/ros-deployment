@@ -164,6 +164,7 @@ catkin_install_python(PROGRAMS
   #scripts/RosCapture.py
   snowcap_python/ResNetNode.py
   snowcap_python/YoloNode.py
+  snowcap_python/TestCam.py
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 
@@ -174,6 +175,10 @@ install(DIRECTORY snowcap_python/
 
 install (DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/model/
   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/model
+)
+
+install (DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/test_images/
+  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/test_images
 )
 
 ## Mark executables for installation
