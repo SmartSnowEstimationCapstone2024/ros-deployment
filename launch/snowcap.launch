@@ -2,4 +2,6 @@
     <node name="ResNetNode" pkg="snowcap" type="ResNetNode.py" output="screen"/>
     <node name="YoloNode" pkg="snowcap" type="YoloNode.py" output="screen"/>
     <node name="WebServer" pkg="snowcap" type="WebServer.py" output="screen"/>
+    <node name="WebServer" pkg="snowcap" type="WebServer.py" output="screen"/>
+    <node name="ServoNode" pkg="snowcap" type="ServoNode.py" output="screen"/>
 </launch>
